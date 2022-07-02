@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}    
+    <section id="prodetails" class="section-p1">
+        <div class="single-pro-image">
+            <img src="{{ object.image.url }}" width="100%" id="MainImg" alt="">
+            
+            <!-- <div class="small-img-group">
+                <div class="small-img-col">
+                    <img src="img/shirt1.png" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img src="img/shirt1.png" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img src="img/shirt1.png" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img src="img/shirt1.png" width="100%" class="small-img" alt="">
+                </div>
+            </div> -->
+        </div>
+        <div class="single-pro-details">
+            <h6>Home / T-shirt</h6>
+            <h4> Men's Fashion</h4>
+            {% if object.discount_price %}
+                <h2><del>${{object.price}}</del>    ${{ object.discount_price }}</h2>
+            {% else %}
+                <h2>${{ object.price }}</h2>
+            {% endif %}
+            <select>
+                <option>Select Size</option>
+                <option>Select Size</option>
+                <option>Select Size</option>
+                <option>Select Size</option>
+            </select>
+            <input type="number" value="1">
+            <a href="{{ object.get_add_to_cart_url }}"><button class="normal">Add to cart</button></a>
+            <h4>Product Details</h4>
+            <span>c fvfskjvfnij swdcdoaedme koedfjkdm;ndaf dkqnd;anvdn dl;n d sncdafdjvfvnfjjvrilf jklnfdnvfdjnv jvnkjdfsnvjkfdlv vnfkdjvnfkjlsnv na;d dlnfda nvdvjn jfsbhvfnvhfjnv bhvbfhvbrdhabkdchjfv bsuvdshbhjdkcdhjv dfbvhjksvbe vbhjdsfvbhjdkfb vrsfhbvrb vbfh bvfdhvb vfvh sordhf rvbhjrfb</span>
+        </div>
+    </section>
+{% endblock content %}
+        

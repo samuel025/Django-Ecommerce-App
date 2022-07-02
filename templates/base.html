@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'shop.css' %}">
+</head>
+<body>
+    
+    <section id="header">
+        <a href="#"> <img src="{% static 'img/oo.png' %}" class="logo" width="25%" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a class="active" href="/">Home</a></li>
+                <li><a href="{% url 'shop_view' %}">Shop</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+                {% else %}
+                    <li><a href="{% url 'account_login' %}">Login</a></li>
+                    <li><a href="{% url 'account_signup' %}">Signup</a></li>
+                {% endif %}
+                <li id="lg-bag"><a href="#"><i class="fas fa-shopping-cart  fa-lg"></i></a></li>
+                <a href="#" id="close"><i class="fas fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="#"><i class="fas fa-shopping-cart  fa-lg"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+    {% block content %}
+
+    {% endblock content %} 
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="{% static 'img/oo.png' %}" height="10%" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address: </strong> 1, Ayeni street, Lagos</p>
+            <div class="follow">
+                <h4>Follow Us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab twitter"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+        </div>
+        
+        <div class="col">
+            <h4>Account</h4>
+            <a href="#">Sign in</a>
+            <a href="#">View Cart</a>
+        </div>
+        
+        <div class="col">
+            <img src="{% static 'img/img/pay/pay.png' %}">
+        </div> 
+    
+    </footer>
+    
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html> 

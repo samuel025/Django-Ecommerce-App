@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'shop.css' %}">
+    <section id="page-header">
+        <h2>Welcome To Our Clothing Line</h2>
+        <p>We offer good products</p>
+    </section>
+    <section id="product1" class="section-p1">
+        <div class="pro-container">
+            {% for item in Item %}
+            <div class="pro">
+                <a href="{{ item.get_absolute_url }}"><img src="{{item.image.url}}" alt=""></a>
+                <div class="des">
+                    <span>{{ item.title }}</span>
+                    <h5>{{ item.brand }}</h5>
+                    <h4>${% if item.discount_price %}
+                        {{ item.discount_price }}
+                      {% else %}
+                        {{ item.price }}
+                      {% endif %}</h4>
+                </div>
+                <a href="#" class="cart"><i class="fas fa-shopping-cart  fa-lg"></i></a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <section id="pagination" class="section-p1">
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#"><i class="fas fa-arrow-right"></i></a>
+    </section>
+{% endblock content %}    

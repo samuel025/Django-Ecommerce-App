@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section id="hero">
+    <h4>Trade-in-offer</h4>
+    <h2>Super Value deals</h2>
+    <h1>On all products</h1>
+    <p>We offer good products</p>
+    <button>Shop Now</button>
+</section>
+
+<section id="feature" class="section-p1">
+    <div class="fe-box">
+        <img src="{% static 'img/free1.jpg' %}" alt=""> 
+        <h6>Free Shipping</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/img/features/f2.png' %}" alt=""> 
+        <h6>Quick Delivery</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/img/features/f3.png' %}" alt=""> 
+        <h6>Free Shipping</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/img/features/f4.png' %}" alt=""> 
+        <h6>Free Shipping</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/img/features/f5.png' %}" alt=""> 
+        <h6>Free Shipping</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/img/features/f6.png' %}" alt=""> 
+        <h6>Free Shipping</h6>
+    </div>
+</section>
+
+<section id="product1" class="section-p1">
+    <h2>Feautured Products</h2>
+    <p> New Modern Design</p>
+    <div class="pro-container">
+        {% for item in Item %}
+        <div class="pro">
+            <a href="{{ item.get_absolute_url }}"><img src="{{item.image.url}}" alt=""></a>
+            <div class="des">
+                <span>{{ item.title }}</span>
+                <h5>{{ item.brand }}</h5>
+                <h4>${% if item.discount_price %}
+                    {{ item.discount_price }}
+                  {% else %}
+                    {{ item.price }}
+                  {% endif %}</h4>
+            </div>
+            <a href="#" class="cart"><i class="fas fa-shopping-cart  fa-lg"></i></a>
+        </div>
+        {% endfor %}
+</section>
+
+<section id="banner" class="section-p1">
+        <h4>Crazy Deals</h4>
+        <h2>Up to <span>70% off</span> All shirts and tops</h2>
+        <a href="{% url 'shop_view' %}"><button class="normal">Explore More</button></a>
+</section>
+{% endblock content %}
