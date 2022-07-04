@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
+from django.forms import ModelForm
 # Create your models here.
 
 CATEGORY_CHOICES = (
@@ -40,7 +41,7 @@ class OrderItem(models.Model):
 	ordered = models.BooleanField(default=False)
 	item = models.ForeignKey(Item, on_delete=models.CASCADE)
 	quantity = models.IntegerField(default=1)
-	size = models.CharField(choices=SIZE, max_length=20)
+	
 
 	def __str__(self):
 		return f"{self.quantity} of {self.item.title}"
@@ -60,6 +61,8 @@ class OrderItem(models.Model):
 		return self.get_total_item_price()
 
 
+
+
 class Order(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	ref_code = models.CharField(max_length=20)
@@ -71,14 +74,13 @@ class Order(models.Model):
 	payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, null=True,blank=True)
 	being_delivered = models.BooleanField(default=False)
 	recieved = models.BooleanField(default=False)
-	
+	# size = models.CharField(choices=SIZE, max_length=20)
 
 class Address(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	street_address = models.CharField(max_length=200)
 	apartment_address = models.CharField(max_length=200)
 	phone_number = models.CharField(max_length=200)
-	default = models.BooleanField(default=False)
 
 
 class Payment(models.Model):
@@ -86,3 +88,8 @@ class Payment(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
 	amount = models.FloatField()
 	timestamp = models.DateTimeField(auto_now_add=True)
+
+# class OrderItemForm(ModelForm):
+#     class Meta:
+#         model = Order
+#         fields = ['size']s

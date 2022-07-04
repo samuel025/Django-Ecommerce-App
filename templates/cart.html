@@ -3,7 +3,7 @@
 {% block content %}
     <section id="page-header">
         <h2>Welcome Tou Our Clothing Line</h2>
-        <p>We offer good products</p>
+        <p>Know Us</p>
     </section>
     
     
@@ -16,7 +16,6 @@
                     <td>Product</td>
                     <td>Price</td>
                     <td>Quantity</td>
-                    <td>Size</td>
                     <td>Subtotal</td>
                 </tr>
             </thead>
@@ -30,13 +29,12 @@
                         <td> <a href="{% url 'remove_single_item_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>
                             {{order_item.quantity}}
                             <a href="{% url 'add-to-cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></td></a></td>
-                        <td>xl</td>
                         <td>{% if order_item.item.discount_price %}
                             ${{order_item.get_total_discount_price}}
                             <span class="badge badge-primary">saving ₦{{order_item.get_amount_saved}}</span>
-                        {% else %}
-                            ${{order_item.get_total_item_price}}
-                        {% endif %}
+                            {% else %}
+                                ${{order_item.get_total_item_price}}
+                            {% endif %}
                         </td>
                         
                     </tr>
@@ -56,18 +54,7 @@
         </div>
 -->
         <div id="subtotal">
-            <h3>Cart Totals</h3>
-            <table>
-                <tr>
-                    <td>Cart Subtotal</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><strong>Total</strong></td>
-                    <td><strong>$ 335</strong></td>
-                </tr>
-            </table>
-            <button class="normal">Proceed to checkout</button>
+           <a href="/checkout/"><button class="normal">Proceed to checkout</button></a> 
         </div>
     </section>
 {% endblock content %}

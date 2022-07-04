@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from pytest import Item
-from core.views import HomeView, ItemDetailView, ShopView, add_to_cart, ItemDetailView, Cart, remove_from_cart, remove_single_item_from_cart
+from core.views import Contact, HomeView, ItemDetailView, ShopView, add_to_cart, ItemDetailView, Cart, remove_from_cart, remove_single_item_from_cart, CheckoutView
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -28,6 +28,8 @@ urlpatterns = [
     path('remove-single-item-from-cart/<slug>', remove_single_item_from_cart, name='remove_single_item_from_cart'),
     path('add-to-cart/<slug>', add_to_cart, name='add-to-cart'),
     path('cart/', Cart.as_view(), name='cart'),
+    path('contact/', Contact.as_view(), name='contact'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product_page'),
     path('accounts/', include('allauth.urls')),
 ]

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<h2 style="margin-bottom: 10px; padding-bottom: 2px;" class="section-p1">Checkout Form</h2>
+<section id="shipping" class="section-p1">
+    <form method="POST">
+        {% csrf_token %}
+            <label for="address" class="">Address</label>
+            <!-- <input type="text" id="address" class="form-control" placeholder="1234 Main St"> -->
+            {{form.street_address}}
+            <!-- <input type="text" id="address-2" class="form-control" placeholder="Apartment or suite"> -->
+            <label for="address-2" class="">Address 2 (optional)</label>
+            {{form.apartment_address}}
+            <label for="zip">Phone Number</label>
+            <!-- <input type="text" class="form-control" id="zip" placeholder="Phone Number" required> -->
+            {{form.phone_number}}
+        <button class="normal" type="submit">Continue to checkout</button>
+    </form>
+    <div id="subtotal" style="margin-left:30px;">
+        <h3>Cart Totals</h3>
+        <table>
+            <tr>
+                <td>Cart Subtotal</td>
+                <td>Free</td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>$ 335</strong></td>
+            </tr>
+        </table>
+       <a href="/checkout/"><button class="normal">Proceed to checkout</button></a> 
+    </div>
+</section>
+  {% endblock content %}

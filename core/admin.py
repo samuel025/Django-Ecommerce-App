@@ -24,9 +24,7 @@ class AddressAdmin(admin.ModelAdmin):
         'street_address',
         'apartment_address',
         'phone_number',
-        'default'
     ]
-    list_filter = ['default']
     search_fields = ['user__username', 'street_address', 'apartment_address']
 
 
