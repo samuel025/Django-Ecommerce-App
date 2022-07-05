@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, View
+from numpy import size
 from .models import Item, OrderItem, Order, Address, Payment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -93,6 +94,30 @@ def remove_from_cart(request,slug):
 		return redirect('product_page', slug=slug)
 
 @login_required
+def add_size(request,slug):
+	if request.method == 'POST':
+		size = request.POST['size']
+		item = get_object_or_404(Item, slug=slug)
+		order_qs = Order.objects.filter(user=request.user, ordered=False)
+		if order_qs.exists():
+			order = order_qs[0]
+			if order.items.filter(item__slug=item.slug).exists():
+				order_item = OrderItem.objects.filter(
+						item=item,
+						user=request.user,
+						ordered=False
+				)[0]
+				order.items.
+				messages.info(request, "This item was removed from your cart")
+				return redirect('cart')
+			else:
+				messages.info(request, "This item is not in your cart")
+				return redirect('product_page', slug=slug)	
+		else:
+			messages.warning(request, "You do not have an active order")
+			return redirect('product_page', slug=slug)
+
+@login_required
 def remove_single_item_from_cart(request,slug):
 	item = get_object_or_404(Item, slug=slug)
 	order_qs = Order.objects.filter(user=request.user, ordered=False)
@@ -121,6 +146,7 @@ def remove_single_item_from_cart(request,slug):
 class Cart(LoginRequiredMixin, View):
 	def get(self, *args, **kwargs):
 		try:
+			
 			order = Order.objects.get(user=self.request.user, ordered=False)
 			context ={
 				'object': order,
@@ -135,6 +161,7 @@ class CheckoutView(View):
 	def get(self, *args, **kwargs):	
 		try:
 			order = Order.objects.get(user=self.request.user, ordered=False)
+	
 			form = CheckoutForm()
 			context={
 			'form': form,
