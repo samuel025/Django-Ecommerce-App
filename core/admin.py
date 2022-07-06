@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, OrderItem, Order, Address, Payment
+from .models import Item, OrderItem, Order, Address, Payment, Size_Instance, Sizes, Color, Color_Instance
 # Register your models here.
 class OrderAdmin(admin.ModelAdmin):
 	list_display = ['user', 
@@ -8,6 +8,7 @@ class OrderAdmin(admin.ModelAdmin):
 					'recieved',
 					'shipping_address', 
 					'payment', 
+					
 					
 					]
 	list_display_links = ['user', 'shipping_address', 'payment']
@@ -34,3 +35,7 @@ admin.site.register(OrderItem)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(Payment)
+admin.site.register(Size_Instance)
+admin.site.register(Sizes)
+admin.site.register(Color_Instance)
+admin.site.register(Color)

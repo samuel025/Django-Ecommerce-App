@@ -213,25 +213,6 @@ class CheckoutView(View):
 		try:
 			order = Order.objects.get(user=self.request.user, ordered=False)
 			if form.is_valid():
-				# use_default_shipping = form.cleaned_data.get('use_default_shipping')
-				# if use_default_shipping:
-					
-				# 	address_qs = Address.objects.filter(
-				# 		user = self.request.user,
-				# 		default = True
-				# 		)
-				# 	if address_qs.exists():
-				# 		shipping_address = address_qs[0]
-				# 		order.shipping_address = shipping_address
-				# 		order.save()
-				# 		return redirect("f_checkout")
-				# 	else:
-				# 		messages.warning(self.request, "No default address")
-				# 		return redirect("checkout")
-				# else:
-				# 	print('User is entering new adrress')
-
-
 					street_address = form.cleaned_data.get('street_address')
 					apartment_address = form.cleaned_data.get('apartment_address')
 					phone_number = form.cleaned_data.get('phone_number')

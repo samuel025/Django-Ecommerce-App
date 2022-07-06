@@ -14,9 +14,11 @@
                     <td>Remove</td>
                     <td>Image</td>
                     <td>Product</td>
-                    <td>Price</td>
+                    <td>Size</td>
+                    <td>Color</td>
                     <td>Quantity</td>
                     <td>Subtotal</td>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +27,8 @@
                         <td><a href="{% url 'remove-from-cart' order_item.item.slug %}"><i class="far fa-times-circle"></i></a></td>
                         <td><img src="{{order_item.item.image.url}}" alt=""></td>
                         <td>{{order_item.item.title}}</td>
-                        <td>${{order_item.item.price}}</td>
+                        <td>{{order_item.size}}</td>
+                        <td>{{order_item.color}}</td>
                         <td> <a href="{% url 'remove_single_item_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>
                             {{order_item.quantity}}
                             <a href="{% url 'add-to-cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></td></a></td>

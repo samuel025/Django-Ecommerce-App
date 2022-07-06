@@ -30,7 +30,7 @@ urlpatterns = [
     path('cart/', Cart.as_view(), name='cart'),
     path('contact/', Contact.as_view(), name='contact'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
-    path('product/<slug>/', ItemDetailView.as_view(), name='product_page'),
+    path('product/<slug>/', ItemDetailView, name='product_page'),
     path('accounts/', include('allauth.urls')),
 ]
 

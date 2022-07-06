@@ -28,16 +28,25 @@
             {% else %}
                 <h2>${{ object.price }}</h2>
             {% endif %}
-            <select>
-                <option>Select Size</option>
-                <option>Select Size</option>
-                <option>Select Size</option>
-                <option>Select Size</option>
+            <form  class="size" method="POST"  action="{{ object.get_add_to_cart_url }}">
+                {% csrf_token %}
+                <select name="size">
+                        <option>Select size</option>
+                    {% for sizes in object.sizes_of_items.size_cloth.all %}          
+                        <option>{{ sizes.main_size }}</option>   
+                    {% endfor %}
+                </select>
+                <select name="color">
+                    <option>Select color</option>
+                {% for colors in object.color_of_items.color_cloth.all %}          
+                    <option>{{ colors.main_color }}</option>   
+                {% endfor %}
             </select>
-            <a href="{{ object.get_add_to_cart_url }}"><button class="normal">Add to cart</button></a>
+                <button type="submit" class="normal">Add to cart</button>
+            </form>
+            
             <h4>Product Details</h4>
-            <span>c fvfskjvfnij swdcdoaedme koedfjkdm;ndaf dkqnd;anvdn dl;n d sncdafdjvfvnfjjvrilf jklnfdnvfdjnv jvnkjdfsnvjkfdlv vnfkdjvnfkjlsnv na;d dlnfda nvdvjn jfsbhvfnvhfjnv bhvbfhvbrdhabkdchjfv bsuvdshbhjdkcdhjv dfbvhjksvbe vbhjdsfvbhjdkfb vrsfhbvrb vbfh bvfdhvb vfvh sordhf rvbhjrfb</span>
+            <span>{{object.description}}</span>
         </div>
     </section>
 {% endblock content %}
-        

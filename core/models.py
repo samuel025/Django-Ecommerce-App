@@ -10,12 +10,28 @@ CATEGORY_CHOICES = (
 	('Custom', 'Custom')
 	)
 
-SIZE =  (
-	('XL', 'XL'),
-	('XXL', 'XXL'),
-	('L', 'L'),
-	('S', 'S')
-)
+
+
+class Color(models.Model):
+	main_color = models.CharField(max_length=20)
+
+	def __str__(self):
+		return f"{self.main_color}"
+
+class Color_Instance(models.Model):
+	color_cloth = models.ManyToManyField(Color)
+
+
+
+class Sizes(models.Model):
+	main_size = models.CharField(max_length=20)
+
+	def __str__(self):
+		return f"{self.main_size}"
+
+class Size_Instance(models.Model):
+	size_cloth = models.ManyToManyField(Sizes)
+
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
@@ -27,6 +43,8 @@ class Item(models.Model):
     description = models.TextField()
     image = models.ImageField(blank=True, null=True)
     another = models.TextField(blank=True, null=True)
+    sizes_of_items = models.ForeignKey(Size_Instance, on_delete=models.CASCADE)
+    color_of_items = models.ForeignKey(Color_Instance, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         return reverse("product_page", kwargs={'slug': self.slug})
@@ -35,16 +53,20 @@ class Item(models.Model):
         return reverse("add-to-cart", kwargs={'slug': self.slug})
     def get_remove_from_cart_url(self):
         return reverse("remove-from-cart", kwargs={'slug': self.slug})
+    def __str__(self):
+        return f"{self.title}"
 
 class OrderItem(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	ordered = models.BooleanField(default=False)
 	item = models.ForeignKey(Item, on_delete=models.CASCADE)
 	quantity = models.IntegerField(default=1)
+	size = models.CharField(max_length=20)
+	color = models.CharField(max_length=20)
 	
 
 	def __str__(self):
-		return f"{self.quantity} of {self.item.title}"
+		return f"{self.quantity} of {self.item.title} size: {self.size}"
 
 	def get_total_item_price(self):
 		return self.quantity * self.item.price
@@ -74,7 +96,7 @@ class Order(models.Model):
 	payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, null=True,blank=True)
 	being_delivered = models.BooleanField(default=False)
 	recieved = models.BooleanField(default=False)
-	# size = models.CharField(choices=SIZE, max_length=20)
+	
 
 class Address(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -93,3 +115,4 @@ class Payment(models.Model):
 #     class Meta:
 #         model = Order
 #         fields = ['size']s
+
