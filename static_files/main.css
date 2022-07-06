@@ -637,6 +637,10 @@ footer .copyright {
     font-size: 13px;
 }
 
+.checkout-table{
+    margin:50px 30px;
+}
+
 
 
 
@@ -758,6 +762,11 @@ footer .copyright {
         text-align: start;
     }
     
+    .checkout-table{
+        width: 90%;
+        margin: 30px 10px;
+    }
+
     #prodetails{
         display: flex;
         flex-direction: column;

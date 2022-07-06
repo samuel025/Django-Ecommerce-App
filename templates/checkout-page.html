@@ -22,13 +22,15 @@
         <h3>Cart Totals</h3>
         <table>
             <tr>
-                <td>Cart Subtotal</td>
-                <td>Free</td>
+                <td>Cart </td>
+                <td>Subtotal</td>
             </tr>
+            {% for order_item in order.items.all %}
             <tr>
-                <td><strong>Total</strong></td>
-                <td><strong>$ 335</strong></td>
+                <td><strong>{{order_item.quantity}} x {{ order_item.item.title }}</strong></td>
+                <td><strong>${{ order_item.get_final_price }}</strong></td>
             </tr>
+            {% endfor %}
         </table>
        <a href="/checkout/"><button class="normal">Proceed to checkout</button></a> 
     </div>

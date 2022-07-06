@@ -123,6 +123,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+PAYSTACK_PUBLIC_KEY = 'sk_test_4efc8832170a975a1e1eb669a89b512909d0049a' # paystack public key
+PAYSTACK_SCRET_KEY = 'pk_test_3f7e5637d0d1c970683fa7b4423675a92c4119a4' #paystack secret key
+
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

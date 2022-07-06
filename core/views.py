@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, View
-from numpy import size
+import random
+import string
+import json
+from django.http import JsonResponse, response
+from paystackapi.paystack import Paystack
+from paystackapi.transaction import Transaction
 from .models import Item, OrderItem, Order, Address, Payment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -195,13 +200,7 @@ class CheckoutView(View):
 			'order': order
 			
 			}
-			# shipping_address_qs = Address.objects.filter(
-			# 	user = self.request.user,
-			# 	# default = True
-			# 	)
-			# if shipping_address_qs.exists():
-			# 	context.update({'default_shipping_address': shipping_address_qs[0]})
-
+	
 		except ObjectDoesNotExist:
 			messages.warning(self.request, "You do not have an active order")
 			return redirect("checkout")
@@ -243,3 +242,57 @@ class CheckoutView(View):
 class Contact(View):
 	def get(self, *args, **kwargs):
 		return render(self.request, 'contact.html', {})
+
+def final_checkout(request):
+	order = Order.objects.get(user=request.user, ordered=False)
+	if order.shipping_address:
+		context = {
+					'order':order,
+					}
+		return render(request, 'final_checkout.html', context)
+	else:
+		messages.warning(request, "You have not added an address")
+		return redirect("checkout")
+		
+def create_ref_code():
+	return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+
+
+class PaymentView(View):
+	def get(self, *args, **kwargs):
+		# transaction = Transaction(authorization_key = 'sk_test_4efc8832170a975a1e1eb669a89b512909d0049a')
+		# response = transaction.verify(kwargs['id'])
+		# data = JsonResponse(response, safe=False)
+		paystack_secret_key = 'sk_test_4efc8832170a975a1e1eb669a89b512909d0049a'
+		paystack = Paystack(secret_key=paystack_secret_key)
+		response = Transaction.verify(reference=kwargs['id'])
+		
+				
+	
+		if response["status"] == True:
+			try:
+				order = Order.objects.get(user=self.request.user, ordered=False)
+				payment = Payment()
+				payment.paystack_id = kwargs['id']
+				payment.user = self.request.user
+				payment.amount = order.get_total()
+				payment.save()
+
+				order_items = order.items.all()
+				order_items.update(ordered=True)
+				for item in order_items:
+					item.save()
+
+				order.ordered = True
+				order.payment = payment
+				order.ref_code = create_ref_code()
+				order.save()
+
+				messages.success(self.request, "order was successful")
+				return redirect("/")
+			except ObjectDoesNotExist:
+				messages.success(self.request, "Your order was successful")
+				return redirect("/")
+		else:
+			messages.success(self.request, "Could not verify the transaction")
+			return redirect("/")
