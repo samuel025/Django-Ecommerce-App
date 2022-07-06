@@ -39,37 +39,83 @@ class ShopView(ListView):
 		context = {'Item':Items}
 		return render(self.request, "shop.html", context)
 
-class ItemDetailView(DetailView):
-	model = Item
-	template_name = "product-detail.html"
-	
+def ItemDetailView(request, slug):
+	Items = Item.objects.get(slug=slug)
+	context = {'object': Items}
+	return render(request, 'product-detail.html', context)
 
 @login_required
 def add_to_cart(request, slug):
-	item = get_object_or_404(Item, slug=slug)
-	order_item, created = OrderItem.objects.get_or_create(
+	if request.method == "POST":
+		size = request.POST['size']
+		color = request.POST['color']
+		item = get_object_or_404(Item, slug=slug)
+		if OrderItem.objects.filter(
+			item=item,
+			user=request.user,
+			ordered=False,
+		):
+			dels = OrderItem.objects.filter(
+				item=item,
+				user=request.user,
+				ordered=False,
+			)
+			for q in dels:
+				q.delete()
+		order_item = OrderItem.objects.create(
 		item=item,
 		user=request.user,
-		ordered=False
+		ordered=False,
+		size = size,
+		color = color
 		)
-	order_qs = Order.objects.filter(user=request.user, ordered=False)
-	if order_qs.exists():
-		order = order_qs[0]
-		if order.items.filter(item__slug=item.slug).exists():
-			order_item.quantity += 1
-			order_item.save()
-			messages.info(request, "This item quantity was updated")
-			return redirect('cart')
+		order_qs = Order.objects.filter(user=request.user, ordered=False)
+		if order_qs.exists():
+			order = order_qs[0]
+			if order.items.filter(item__slug=item.slug).exists():
+				order_item.quantity += 1
+				order_item.size = size
+				order_item.color = color
+				order_item.save()
+				messages.info(request, "This item quantity was updated")
+				return redirect('cart')
+			else:
+				messages.info(request, "This item was added to your cart")
+				order.items.add(order_item)
+				return redirect('cart')
 		else:
-			messages.info(request, "This item was added to your cart")
+			ordered_date = timezone.now()
+			order = Order.objects.create(user=request.user, ordered_date=ordered_date)
 			order.items.add(order_item)
+			messages.info(request, "This item was added to your cart")
 			return redirect('cart')
 	else:
-		ordered_date = timezone.now()
-		order = Order.objects.create(user=request.user, ordered_date=ordered_date)
-		order.items.add(order_item)
-		messages.info(request, "This item was added to your cart")
-		return redirect('cart')
+		item = get_object_or_404(Item, slug=slug)
+		order_item = OrderItem.objects.get(
+			item=item,
+			user=request.user,
+			ordered=False,
+			)
+		order_qs = Order.objects.filter(user=request.user, ordered=False)
+		if order_qs.exists():
+			order = order_qs[0]
+			if order.items.filter(item__slug=item.slug).exists():
+				order_item.quantity += 1
+				order_item.save()
+				messages.info(request, "This item quantity was updated")
+				return redirect('cart')
+			else:
+				messages.info(request, "This item was added to your cart")
+				order.items.add(order_item)
+				return redirect('cart')
+		else:
+			ordered_date = timezone.now()
+			order = Order.objects.create(user=request.user, ordered_date=ordered_date)
+			order.items.add(order_item)
+			messages.info(request, "This item was added to your cart")
+			return redirect('cart')
+
+		
 
 @login_required
 def remove_from_cart(request,slug):
@@ -82,8 +128,8 @@ def remove_from_cart(request,slug):
 					item=item,
 					user=request.user,
 					ordered=False
-			)[0]
-			order.items.remove(order_item)
+			)[0].delete()
+			# order.items.remove(order_item)
 			messages.info(request, "This item was removed from your cart")
 			return redirect('cart')
 		else:
@@ -93,29 +139,6 @@ def remove_from_cart(request,slug):
 		messages.warning(request, "You do not have an active order")
 		return redirect('product_page', slug=slug)
 
-@login_required
-def add_size(request,slug):
-	if request.method == 'POST':
-		size = request.POST['size']
-		item = get_object_or_404(Item, slug=slug)
-		order_qs = Order.objects.filter(user=request.user, ordered=False)
-		if order_qs.exists():
-			order = order_qs[0]
-			if order.items.filter(item__slug=item.slug).exists():
-				order_item = OrderItem.objects.filter(
-						item=item,
-						user=request.user,
-						ordered=False
-				)[0]
-				order.items.
-				messages.info(request, "This item was removed from your cart")
-				return redirect('cart')
-			else:
-				messages.info(request, "This item is not in your cart")
-				return redirect('product_page', slug=slug)	
-		else:
-			messages.warning(request, "You do not have an active order")
-			return redirect('product_page', slug=slug)
 
 @login_required
 def remove_single_item_from_cart(request,slug):
@@ -133,7 +156,11 @@ def remove_single_item_from_cart(request,slug):
 				order_item.quantity -= 1
 				order_item.save()
 			else:
-				order.items.remove(order_item)
+				order_item = OrderItem.objects.filter(
+					item=item,
+					user=request.user,
+					ordered=False
+			)[0].delete()
 			messages.info(request, "This item quantity was updated")
 			return redirect('cart')
 		else:
@@ -208,8 +235,6 @@ class CheckoutView(View):
 					street_address = form.cleaned_data.get('street_address')
 					apartment_address = form.cleaned_data.get('apartment_address')
 					phone_number = form.cleaned_data.get('phone_number')
-					# same_shipping_address = form.cleaned_data.get('same_shipping_address')
-					# save_info = form.cleaned_data.get('save_info')
 
 					if is_valid_form([street_address, phone_number]):
 						shipping_address = Address(
@@ -223,11 +248,7 @@ class CheckoutView(View):
 						order.save()
 						
 
-						# set_default_shipping = form.cleaned_data.get('set_default_shipping')
-						# if set_default_shipping:
-						# 	shipping_address.default = True
-						# 	shipping_address.save()
-						# 	return redirect('f_checkout')
+						
 						return redirect('f_checkout')
 
 					else:
