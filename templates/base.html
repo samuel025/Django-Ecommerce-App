@@ -17,7 +17,7 @@
         <a href="#"> <img src="{% static 'img/oo.png' %}" class="logo" width="25%" alt=""></a>
         <div>
             <ul id="navbar">
-                <li><a class="active" href="/">Home</a></li>
+                <li><a class="" href="/">Home</a></li>
                 <li><a href="{% url 'shop_view' %}">Shop</a></li>
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'account_logout' %}">Logout</a></li>
