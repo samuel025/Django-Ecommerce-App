@@ -17,10 +17,11 @@
         {% endfor %}
     </table>
     <form>
-        <script src="https://js.paystack.co/v1/inline.js"></script>
-        <button type="submit" onclick="payWithPaystack()" class="normal">Proceed to Pay</button>
+        
+        <button type="button" onclick="payWithPaystack()" class="normal">Proceed to Pay</button>
    </form>
 </div>
+<script src="https://js.paystack.co/v1/inline.js"></script>
 
 
 <script>
@@ -31,15 +32,15 @@
         amount: {{order.get_total}} * 100,
         ref: ''+Math.floor((Math.random() * 1000000000) + 1), 
         callback: function(response){
-            datar = response.reference
-            $.ajax({
-              url: '/verify/'+ datar,
-              method: 'GET',
-  
-              success: function (response) {
-                window.location.href = "/verify/" + datar
-              }
-            });
+             
+            // $.ajax({
+            //   url: '/verify/'+ datar,
+            //   method: 'GET',
+            //   success: function (response) {
+            //     window.location.href = "/verify/" + datar
+            //   }
+            // });
+            window.location = "/verify/" + response.reference;
         },
         onClose: function(){
             alert('Transaction was not completed, window closed.');

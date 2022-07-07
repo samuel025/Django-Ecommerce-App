@@ -97,6 +97,12 @@ class Order(models.Model):
 	being_delivered = models.BooleanField(default=False)
 	recieved = models.BooleanField(default=False)
 	
+	def get_total(self):
+		total = 0
+		for order_item in self.items.all():
+			total += order_item.get_final_price()
+		return total
+           
 
 class Address(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
