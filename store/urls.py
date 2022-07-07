@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from pytest import Item
 from core.views import Contact, HomeView, ItemDetailView, ShopView, add_to_cart, ItemDetailView, Cart, remove_from_cart, remove_single_item_from_cart, CheckoutView, final_checkout, PaymentView
 from django.conf.urls.static import static
 from django.conf import settings
