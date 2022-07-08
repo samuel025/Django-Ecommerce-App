@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<div id="subtotal" class="section-p1 checkout-table">
+<div id="subtotals" class="section-p1 checkout-table">
     <h3>Cart Totals</h3>
     <table>
         <tr>
@@ -18,7 +18,9 @@
     </table>
     <form>
         
-        <button type="button" onclick="payWithPaystack()" class="normal">Proceed to Pay</button>
+        <button type="button" onclick="payWithPaystack()" class="normal">Pay with Card</button>
+        <h5 style="margin: 5px;">Or</h5>
+        <button type="button" class="normal">Pay On Delivery</button>
    </form>
 </div>
 <script src="https://js.paystack.co/v1/inline.js"></script>
