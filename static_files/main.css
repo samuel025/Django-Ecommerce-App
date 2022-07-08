@@ -331,6 +331,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-right:20px ;
 }
 
 #shipping .form-c{
@@ -344,6 +345,13 @@ body {
     background-color: #088178;
     color: #fff
 }
+#shipping.subtotal{
+    width: 55%;
+    height: 400vh;
+    border: none;
+    margin-left: 20px;
+}
+
 .radio {
     height: 18px;
 }
@@ -598,7 +606,7 @@ footer .copyright {
 }
 
 #coupon h3,
-#subtotal h3{
+#subtotals h3{
     padding-bottom: 15px;
 }
 
@@ -611,26 +619,26 @@ footer .copyright {
 } 
 
 #coupon button,
-#subtotal button{
+#subtotals button{
     background-color: #088178;
     color: #fff;
     padding: 12px 20px;
 }
 
-#subtotal{
+#subtotals{
     width: 50%;
     margin-bottom: 30px;
     border: 1px solid #e2e9e1;
     padding: 30px;
 }
 
-#subtotal table {
+#subtotals table {
     border-collapse: collapse;
     width: 100%;
     margin-bottom: 20px;
 }
 
-#subtotal table td{
+#subtotals table td{
     width: 50%;
     border: 1px solid #e2e9e1;
     padding: 10px;
@@ -727,7 +735,13 @@ footer .copyright {
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-      }
+    }
+    #shipping{
+        padding: 40px;
+    }
+    #shipping form{
+        width: 50%;
+    }
 }
 
 
@@ -784,9 +798,21 @@ footer .copyright {
     #coupon{
         width: 100%;
     }
-    #subtotal{
+    #subtotals{
         width: 100%;
         padding: 20px;
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+
+    #shipping{
+        padding: 30px 10px;
+        margin: 10px;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    #shipping form{
+        width: 100%;
     }
 }
 
