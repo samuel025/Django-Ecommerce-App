@@ -215,28 +215,28 @@ class CheckoutView(View):
 		try:
 			order = Order.objects.get(user=self.request.user, ordered=False)
 			if form.is_valid():
-					street_address = form.cleaned_data.get('street_address')
-					apartment_address = form.cleaned_data.get('apartment_address')
-					phone_number = form.cleaned_data.get('phone_number')
+				street_address = form.cleaned_data.get('street_address')
+				apartment_address = form.cleaned_data.get('apartment_address')
+				phone_number = form.cleaned_data.get('phone_number')
 
-					if is_valid_form([street_address, phone_number]):
-						shipping_address = Address(
-								user = self.request.user,
-								street_address = street_address,
-								apartment_address = apartment_address,
-								phone_number = phone_number,
-							) 
-						shipping_address.save()
-						order.shipping_address = shipping_address
-						order.save()
-						
+				if is_valid_form([street_address, phone_number]):
+					shipping_address = Address(
+							user = self.request.user,
+							street_address = street_address,
+							apartment_address = apartment_address,
+							phone_number = phone_number,
+						) 
+					shipping_address.save()
+					order.shipping_address = shipping_address
+					order.save()
+					
 
-						
-						return redirect('f_checkout')
+					
+					return redirect('f_checkout')
 
-					else:
-						messages.warning(self.request, "Please fill in the requred ")
-						return redirect('f_checkout')		
+				else:
+					messages.warning(self.request, "Please fill in the requred ")
+					return redirect('f_checkout')		
 		except ObjectDoesNotExist:
 			messages.info(self.request, "You do not have active orders")
 			return redirect('checkout')

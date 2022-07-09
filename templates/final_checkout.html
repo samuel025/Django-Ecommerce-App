@@ -20,7 +20,7 @@
         
         <button type="button" onclick="payWithPaystack()" class="normal">Pay with Card</button>
         <h5 style="margin: 5px;">Or</h5>
-        <button type="button" class="normal">Pay On Delivery</button>
+        <a href="{% url 'payment_on_delivery' %}"><button type="button" class="normal">Pay On Delivery</button></a>
    </form>
 </div>
 <script src="https://js.paystack.co/v1/inline.js"></script>
