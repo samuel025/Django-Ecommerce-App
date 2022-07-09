@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import Contact, HomeView, ItemDetailView, ShopView, add_to_cart, ItemDetailView, Cart, remove_from_cart, remove_single_item_from_cart, CheckoutView, final_checkout, PaymentView
+from core.views import Contact, HomeView, ItemDetailView, Pay_on_delivery, ShopView, add_to_cart, ItemDetailView, Cart, remove_from_cart, remove_single_item_from_cart, CheckoutView, final_checkout, PaymentView, Payment_on_delivery
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -30,7 +30,9 @@ urlpatterns = [
     path('contact/', Contact.as_view(), name='contact'),
     path('verify/<int:id>', PaymentView.as_view(), name='verify_payment'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
+    path('on_delivery', Pay_on_delivery, name='on_delivery'),
     path('product/<slug>/', ItemDetailView, name='product_page'),
+    path('pay_on_delivery', Payment_on_delivery, name='payment_on_delivery'),
     path('final-checkout/', final_checkout, name='f_checkout'),
     path('accounts/', include('allauth.urls')),
 ]

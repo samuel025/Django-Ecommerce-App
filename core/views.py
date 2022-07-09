@@ -299,3 +299,31 @@ class PaymentView(View):
 		else:
 			messages.success(self.request, "Could not verify the transaction")
 			return redirect("/")
+
+def Payment_on_delivery(request):
+	order = Order.objects.get(user=request.user, ordered=False)
+	if order.shipping_address:
+		context = {
+					'order':order,
+					}
+		return render(request, 'pay_on_delivery.html', context)
+		
+
+def Pay_on_delivery(request):		
+			try:
+				order = Order.objects.get(user=request.user, ordered=False)
+
+				order_items = order.items.all()
+				order_items.update(ordered=True)
+				for item in order_items:
+					item.save()
+
+				order.ordered = True
+				order.ref_code = create_ref_code()
+				order.save()
+
+				messages.success(request, "order was successful")
+				return redirect("/")
+			except ObjectDoesNotExist:
+				messages.success(request, "Your order was successful")
+				return redirect("/")
