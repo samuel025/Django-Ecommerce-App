@@ -10,6 +10,30 @@
     <h2>Welcome To Our Clothing Line</h2>
     <p>We offer good products</p>
 </section>
+{% if form.errors %}
+  {% for field in form %}
+      {% for error in field.errors %}
+          <div style="
+            padding: 20px;
+            background-color: #e80202;
+            color: white;
+            position: relative;
+        ">
+            {{ error|escape }}
+          </div>
+      {% endfor %}
+  {% endfor %}
+  {% for error in form.non_field_errors %}
+      <div style="
+      padding: 20px;
+      background-color: #e80202;
+      color: white;
+      position: relative;
+  ">
+          <strong>{{ error|escape }}</strong>
+      </div>
+  {% endfor %}
+{% endif %}
 
 <section class="section-p1" id="log">
   <h1>{% trans "Sign In" %}</h1>
