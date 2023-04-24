@@ -13,7 +13,7 @@ CATEGORY_CHOICES = (
 
 
 class Color(models.Model):
-	main_color = models.CharField(max_length=20)
+	main_color = models.CharField(max_length=20, null=True, blank=True)
 
 	def __str__(self):
 		return f"{self.main_color}"
@@ -24,7 +24,7 @@ class Color_Instance(models.Model):
 
 
 class Sizes(models.Model):
-	main_size = models.CharField(max_length=20)
+	main_size = models.CharField(max_length=20, null=True, blank=True)
 
 	def __str__(self):
 		return f"{self.main_size}"

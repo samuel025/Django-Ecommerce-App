@@ -33,13 +33,13 @@
                 <select name="size" required>
                         <option value="">Select size</option>
                     {% for sizes in object.sizes_of_items.size_cloth.all %}          
-                        <option>{{ sizes.main_size }}</option>   
+                        <option>{{ sizes.main_size }}</option> 
                     {% endfor %}
                 </select>
                 <select name="color" required>
                     <option value="">Select color</option>
                 {% for colors in object.color_of_items.color_cloth.all %}          
-                    <option>{{ colors.main_color }}</option>   
+                    <option>{{ colors.main_color }} </option>
                 {% endfor %}
             </select>
                 <button type="submit" class="normal">Add to cart</button>
