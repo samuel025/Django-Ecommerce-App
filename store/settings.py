@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2kd#jw^9-f+h&#q38!8*ukk1unf@_f71!_=i))ck*b_xr#eol^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://stores.up.railway.app/']
 
 
 # Application definition
@@ -159,9 +159,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL='/'
 
-CSRF_TRUSTED_ORIGINS = [
-   'https://stores.up.railway.app/'
-]
+CSRF_TRUSTED_ORIGINS = ['*']
 
 import dj_database_url
 import os
