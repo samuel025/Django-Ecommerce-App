@@ -158,3 +158,16 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL='/'
+
+CSRF_TRUSTED_ORIGINS = [
+   'https://stores.up.railway.app/'
+]
+
+import dj_database_url
+import os
+
+DATABASE_URL = "postgresql://postgres:xBNacAlhbxoDyVBiNaXL@containers-us-west-56.railway.app:6927/railway"
+
+DATABASES = {
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+}
