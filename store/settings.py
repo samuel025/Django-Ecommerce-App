@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2kd#jw^9-f+h&#q38!8*ukk1unf@_f71!_=i))ck*b_xr#eol^'
+SECRET_KEY = os.environ.get('DATABASE_URL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.environ.get('ENVIRONMENT') == 'TEST':
+    DEBUG = True
+else:
+    DEBUG = False 
 
 ALLOWED_HOSTS = ['*']
 
@@ -162,11 +169,11 @@ LOGIN_REDIRECT_URL='/'
 
 CSRF_TRUSTED_ORIGINS = ['https://stores.up.railway.app']
 
-import dj_database_url
-import os
 
-DATABASE_URL = "postgresql://postgres:xBNacAlhbxoDyVBiNaXL@containers-us-west-56.railway.app:6927/railway"
 
-DATABASES = {
-    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
-}
+
+# DATABASE_URL = os.environ.get('DATABASE_URL')
+
+# DATABASES = {
+#     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+# }

@@ -28,3 +28,4 @@ six
 sqlparse
 urllib3
 whitenoise
+python-dotenv
