@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DATABASE_URL')
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENVIRONMENT') == 'TEST':
     DEBUG = True
-else:
+elif os.environ.get('ENVIRONMENT') == 'PRODUCTION':
     DEBUG = False 
 
 ALLOWED_HOSTS = ['*']
@@ -160,7 +160,7 @@ ACCOUNT_FORMS = {
     'signup': 'core.forms.CustomSignUpForm'
 }
 
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -170,6 +170,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL='/'
 
 CSRF_TRUSTED_ORIGINS = ['https://stores.up.railway.app']
+CORS_ALLOWED_ORIGINS = [
+    'https://stores.up.railway.app',
+]
 
 
 
