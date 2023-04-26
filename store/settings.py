@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'core',
     'crispy_forms',
     'allauth',
@@ -182,3 +184,10 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 DATABASES = {
     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
+
+CLOUDINARY_STORAGE = {
+'CLOUD_NAME': 'ditf8dmmi',
+'API_KEY': '366159619277324',
+'API_SECRET': 'Bcv8_dw2yXg74_DOmNsXotNl5-c',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
