@@ -136,8 +136,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-PAYSTACK_PUBLIC_KEY = 'sk_test_4efc8832170a975a1e1eb669a89b512909d0049a' # paystack public key
-PAYSTACK_SCRET_KEY = 'pk_test_3f7e5637d0d1c970683fa7b4423675a92c4119a4' #paystack secret key
+PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY') # paystack public key
+PAYSTACK_SCRET_KEY = os.environ.get('PAYSTACK_SCRET_KEY') #paystack secret key
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -186,8 +186,8 @@ DATABASES = {
 }
 
 CLOUDINARY_STORAGE = {
-'CLOUD_NAME': 'ditf8dmmi',
-'API_KEY': '366159619277324',
-'API_SECRET': 'Bcv8_dw2yXg74_DOmNsXotNl5-c',
+'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+'API_KEY': os.environ.get('API_KEY'),
+'API_SECRET': os.environ.get('API_SECRET')
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
