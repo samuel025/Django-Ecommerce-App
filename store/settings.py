@@ -32,7 +32,7 @@ if os.environ.get('ENVIRONMENT') == 'TEST':
 elif os.environ.get('ENVIRONMENT') == 'PRODUCTION':
     DEBUG = False 
 
-ALLOWED_HOSTS = ['https://stores.up.railway.app', '127.0.0.1']
+ALLOWED_HOSTS = ['stores.up.railway.app', '127.0.0.1']
 
 
 
