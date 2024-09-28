@@ -35,6 +35,7 @@ urlpatterns = [
     path('pay_on_delivery', Payment_on_delivery, name='payment_on_delivery'),
     path('final-checkout/', final_checkout, name='f_checkout'),
     path('accounts/', include('allauth.urls')),
+    path('api/', include('rest_api.urls')),
 ]
 
 if settings.DEBUG:

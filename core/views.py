@@ -68,11 +68,11 @@ def add_to_cart(request, slug):
 			for q in dels:
 				q.delete()
 		order_item = OrderItem.objects.create(
-		item=item,
-		user=request.user,
-		ordered=False,
-		size = size,
-		color = color
+			item=item,
+			user=request.user,
+			ordered=False,
+			size = size,
+			color = color
 		)
 		order_qs = Order.objects.filter(user=request.user, ordered=False)
 		if order_qs.exists():
@@ -181,8 +181,9 @@ def remove_single_item_from_cart(request,slug):
 class Cart(LoginRequiredMixin, View):
 	def get(self, *args, **kwargs):
 		try:
-			
 			order = Order.objects.get(user=self.request.user, ordered=False)
+			if not order.items.exists():
+				raise ObjectDoesNotExist("No item in cart")
 			context ={
 				'object': order,
 			}

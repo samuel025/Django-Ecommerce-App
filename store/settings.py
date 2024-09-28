@@ -24,13 +24,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DATABASE_URL')
+SECRET_KEY = 'W893R429RH4FRFIFB93498HFREIUSAWUI'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENVIRONMENT') == 'TEST':
-    DEBUG = True
-elif os.environ.get('ENVIRONMENT') == 'PRODUCTION':
-    DEBUG = False 
+# # SECURITY WARNING: don't run with debug turned on in production!
+# if os.environ.get('ENVIRONMENT') == 'TEST':
+#     
+# elif os.environ.get('ENVIRONMENT') == 'PRODUCTION':
+#     DEBUG = False 
+
+DEBUG = True
 
 ALLOWED_HOSTS = ['stores.up.railway.app', '127.0.0.1']
 
@@ -49,16 +51,22 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'core',
+    'rest_api',
     'crispy_forms',
+    'rest_framework',
+    'rest_framework.authtoken',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'rest_framework_simplejwt.token_blacklist',
+    'dj_rest_auth',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -162,7 +170,7 @@ ACCOUNT_FORMS = {
     'signup': 'core.forms.CustomSignUpForm'
 }
 
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -171,23 +179,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL='/'
 
-CSRF_TRUSTED_ORIGINS = ['https://stores.up.railway.app']
-CORS_ALLOWED_ORIGINS = [
-    'https://stores.up.railway.app',
-]
+# CSRF_TRUSTED_ORIGINS = ['https://stores.up.railway.app']
+# CORS_ALLOWED_ORIGINS = [
+#     'https://stores.up.railway.app',
+# ]
 
-
-
-
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
-DATABASES = {
-    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
 
-CLOUDINARY_STORAGE = {
-'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
-'API_KEY': os.environ.get('API_KEY'),
-'API_SECRET': os.environ.get('API_SECRET')
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
 }
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# DATABASE_URL = os.environ.get('DATABASE_URL')
+
+
+
+# CLOUDINARY_STORAGE = {
+# 'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+# 'API_KEY': os.environ.get('API_KEY'),
+# 'API_SECRET': os.environ.get('API_SECRET')
+# }
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
